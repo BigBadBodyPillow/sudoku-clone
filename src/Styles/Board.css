@@ -1,0 +1,35 @@
+/* dark */
+:root {
+  --square-colour: rgb(11, 11, 11);
+}
+/* lightmode */
+@media (prefers-color-scheme: light) {
+  :root {
+    --square-colour: rgb(246, 246, 246);
+  }
+}
+
+.board {
+  display: grid;
+  width: 300px;
+  aspect-ratio: 1/1;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  gap: 0.1rem;
+  background: var(--border-colour);
+  border: 0.1rem solid var(--border-colour);
+  border-radius: 0.3rem;
+}
+
+/* .board[data-index='board1'] {
+  background: var(--border-colour);
+} */
+.square {
+  cursor: pointer;
+  border-radius: 0.3rem;
+  background: var(--square-colour);
+}
+.square:hover {
+  background: var(--border-colour);
+}
