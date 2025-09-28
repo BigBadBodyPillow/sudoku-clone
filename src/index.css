@@ -1,11 +1,12 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Space Grotesk', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  box-sizing: border-box;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: rgb(11, 11, 11);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,11 +16,11 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #ff70cb;
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  opacity: 0.75;
 }
 
 body {
@@ -47,11 +48,12 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #ff70cb;
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  /* outline: 4px auto -webkit-focus-ring-color; */
+  outline: 4px auto #ff70cb;
 }
 
 @media (prefers-color-scheme: light) {
@@ -60,7 +62,7 @@ button:focus-visible {
     background-color: #ffffff;
   }
   a:hover {
-    color: #747bff;
+    opacity: 0.75;
   }
   button {
     background-color: #f9f9f9;
