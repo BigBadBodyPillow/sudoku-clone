@@ -12,6 +12,9 @@ temporary preview
 ## Todo
 
 - [x] start
+- [x] create grid
+- [ ] make it work
+- [ ] add the notes thing
 - [ ] theme changer
 
 ## Learnings from this project
@@ -19,6 +22,7 @@ temporary preview
 - nothing yet
 
 ## setup
+
 To run this project locally, you will need to have Node.js and npm installed.
 
 1.  Clone the repository:

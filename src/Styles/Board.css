@@ -9,17 +9,56 @@
   }
 }
 
-.board {
+.board-container {
+  box-sizing: border-box;
   display: grid;
-  width: 300px;
+
+  width: 90%;
+  max-width: 900px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  --grid-gap: 0.1rem;
+  padding: var(--grid-gap);
+  gap: var(--grid-gap);
+  border-radius: 0.3rem;
+  background-color: rgba(64, 0, 255, 0.249);
+}
+
+.board {
+  /* --board-width: 250px; */
+  /* width: var(--board-width); */
+  /* width: 100%; */
+  /* max-width: 300px; */
+  display: grid;
   aspect-ratio: 1/1;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
 
-  gap: 0.1rem;
-  background: var(--border-colour);
-  border: 0.1rem solid var(--border-colour);
+  gap: var(--grid-gap);
+  border: var(--grid-gap) solid var(--border-colour);
   border-radius: 0.3rem;
+  background: var(--border-colour);
+}
+/* @media (width <= 1000px) {
+  .board {
+    font-size: 0.85rem;
+  }
+}
+@media (width <= 800px) {
+  .board {
+    font-size: 0.8rem;
+  }
+} */
+@media (width <= 800px) {
+  .board {
+    font-size: 0.75rem;
+  }
+}
+@media (width <= 500px) {
+  .board {
+    font-size: 0.5rem;
+  }
 }
 
 /* .board[data-index='board1'] {
@@ -29,6 +68,10 @@
   cursor: pointer;
   border-radius: 0.3rem;
   background: var(--square-colour);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1rem;
 }
 .square:hover {
   background: var(--border-colour);

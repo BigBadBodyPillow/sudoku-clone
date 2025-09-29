@@ -6,6 +6,7 @@ import RainbowLine from './components/RainbowLine';
 import Board from './components/Board';
 
 function App() {
+  // hold number then click cell will input that number
   return (
     <>
       <RainbowLine />
