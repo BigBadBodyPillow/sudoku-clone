@@ -80,12 +80,15 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+button:hover,
+button:focus-visible {
   opacity: 0.8;
+  color: var(--accent-colour);
 }
 button:active {
   opacity: 1;
   background: var(--accent-colour);
+  color: white;
 }
 button:focus,
 button:focus-visible {

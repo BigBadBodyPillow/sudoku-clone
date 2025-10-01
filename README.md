@@ -15,11 +15,12 @@
 - [x] start
 - [x] create grid
 - [x] make it work
-- [ ] add 'number pad' that appears when cell is clicked(not focused? & not on mobile)
-- [ ] testing
 - [ ] add the notes thing
+- [ ] testing
+- [ ] add 'number pad' that appears when cell is clicked(not focused? & not on mobile)
 - [ ] theme changer
 - [ ] font size changer
+- [ ] optimise for performance and readability
 - [ ] animation when board/row/column is correct
 
 ## Learnings from this project

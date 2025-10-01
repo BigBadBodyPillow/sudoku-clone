@@ -109,12 +109,13 @@
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-  width: calc(100% - 0.5rem);
-  max-width: 900px;
+  width: 100%;
+  max-width: 300px;
 }
 .controls button {
   width: inherit;
 }
 .controls button:focus {
   outline: 2px solid var(--accent-colour);
+  outline: none;
 }

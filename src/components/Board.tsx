@@ -36,7 +36,7 @@ function Board() {
     const completed = generateCompletedGrid();
     // s is the complete game board.
     // p isthe version with suqres removed untill it reaches the clues perameter
-    const { puzzle: p, solution: s } = makePuzzle({ completed, clues: 80 });
+    const { puzzle: p, solution: s } = makePuzzle({ completed, clues: 40 });
     setPuzzle(p);
     setSolution(s);
     setUserGrid(cloneGrid(p));
