@@ -1,4 +1,4 @@
-import '../Styles/RainbowLine.css';
+import './RainbowLine.css';
 
 function RainbowLine() {
   return <div className="rainbow-line"></div>;

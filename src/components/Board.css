@@ -1,0 +1,120 @@
+.board-container {
+  --grid-gap: 0.1rem;
+  --game-background-colour: rgba(64, 0, 255, 0.249);
+  --invalid-colour: #ff4d4f;
+
+  box-sizing: border-box;
+  display: grid;
+
+  width: 90%;
+  max-width: 900px;
+  aspect-ratio: 1/1;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  padding: var(--grid-gap);
+  gap: var(--grid-gap);
+  border-radius: var(--border-radius);
+  background-color: var(--game-background-colour);
+}
+
+.board {
+  display: grid;
+  aspect-ratio: 1/1;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  gap: var(--grid-gap);
+  border: var(--grid-gap) solid var(--border-colour);
+  border-radius: var(--border-radius);
+  background: var(--border-colour);
+
+  font-size: 1.5em;
+}
+
+@media (width <= 800px) {
+  .board {
+    /* font-size: 0.75rem; */
+    font-size: 1rem;
+  }
+}
+@media (width <= 500px) {
+  .board {
+    /* font-size: 0.5rem; */
+    font-size: 0.75rem;
+  }
+}
+
+/* .board[data-index='board1'] {
+  background: var(--border-colour);
+} */
+
+.square {
+  border-radius: var(--border-radius);
+  background: var(--square-colour);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1rem;
+}
+
+.square.editable:hover {
+  background: var(--square-colour_hover);
+}
+
+.square.editable:active {
+  background: var(--square-colour_active);
+}
+
+.square.given {
+  color: var(--text-colour_alt);
+  background: var(--border-colour);
+}
+
+/* .square.editable {
+  background: var(--square-colour);
+}
+.square.editable:hover {
+  background: var(--border-colour);
+} */
+
+.square.invalid {
+  outline: 2px solid var(--invalid-colour);
+  z-index: 1;
+}
+
+.square-text {
+  user-select: none;
+}
+
+.square-input {
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 1/1;
+  text-align: center;
+  background: transparent;
+  border: none;
+  color: var(--text-colour);
+  font: inherit;
+}
+.square-input:focus {
+  outline: 2px solid var(--accent-colour);
+  /* outline: none; */
+  z-index: 1;
+  border-radius: var(--border-radius);
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  width: calc(100% - 0.5rem);
+  max-width: 900px;
+}
+.controls button {
+  width: inherit;
+}
+.controls button:focus {
+  outline: 2px solid var(--accent-colour);
+}
