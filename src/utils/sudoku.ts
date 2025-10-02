@@ -23,13 +23,13 @@ interface makePuzzleParams {
   clues: number;
 }
 
-const boardSize = 9; // the game is a 3x3 grid made up of 3x3 boards. this totals 9 numbers in a single row
-const boards = 3; // 3x3 cells = 1 board
+const gridSize = 9; // the game is a 3x3 grid made up of 3x3 boardSize. this totals 9 numbers in a single row
+const boardSize = 3; // 3x3 cells = 1 board
 
 // an array of 9 arrays which themselves have an array of 9 0s
 // this makes up the 81 total numbers for the game
 function createEmptyGrid(): Grid {
-  return Array.from({ length: boardSize }, () => Array(boardSize).fill(0));
+  return Array.from({ length: gridSize }, () => Array(gridSize).fill(0));
 }
 
 // randomize the numbers
@@ -40,7 +40,6 @@ function createEmptyGrid(): Grid {
 function shuffle<T>(array: T[]): T[] {
   const a = array.slice();
   for (let i = a.length - 1; i > 0; i -= 1) {
-    //generate a random number
     const j = Math.floor(Math.random() * (i + 1));
     // const k = a[i];
     // a[i] = a[j];
@@ -97,17 +96,23 @@ function shuffle<T>(array: T[]): T[] {
 //
 function isSafe({ grid, row, col, num }: IsSafeParams): boolean {
   // if the number exists in the row or column then is not safe
-  for (let i = 0; i < boardSize; i += 1) {
+  for (let i = 0; i < gridSize; i += 1) {
     if (grid[row][i] === num || grid[i][col] === num) return false;
   }
 
   // the first row/column in the sub grid that the selected cell is part of
-  const startRow = row - (row % boards);
-  const startCol = col - (col % boards);
+  const boardRow = row - (row % boardSize);
+  const boardCol = col - (col % boardSize);
+
   // check if number exists in its board(the 3x3)
-  for (let r = 0; r < boards; r += 1) {
-    for (let c = 0; c < boards; c += 1) {
-      if (grid[startRow + r][startCol + c] === num) return false;
+  // variables names get really long so:
+  // r is the row relative to the board
+  // c is the column relative to the board
+  // boardRow + r gives you the overall row index in the grid
+  // boardCol + c gives you the overall column index in the grid
+  for (let r = 0; r < boardSize; r += 1) {
+    for (let c = 0; c < boardSize; c += 1) {
+      if (grid[boardRow + r][boardCol + c] === num) return false;
     }
   }
   return true;
@@ -115,8 +120,8 @@ function isSafe({ grid, row, col, num }: IsSafeParams): boolean {
 
 // find empty cell (value of 0), return it, or null if full
 function findEmpty(grid: Grid): [number, number] | null {
-  for (let r = 0; r < boardSize; r += 1) {
-    for (let c = 0; c < boardSize; c += 1) {
+  for (let r = 0; r < gridSize; r += 1) {
+    for (let c = 0; c < gridSize; c += 1) {
       if (grid[r][c] === 0) return [r, c];
     }
   }
@@ -218,8 +223,8 @@ export function makePuzzle({ completed, clues = 32 }: makePuzzleParams): {
 
   // list of all cell coordinates from [0,0] to [8,8]
   const positions: [number, number][] = [];
-  for (let r = 0; r < boardSize; r += 1) {
-    for (let c = 0; c < boardSize; c += 1) {
+  for (let r = 0; r < gridSize; r += 1) {
+    for (let c = 0; c < gridSize; c += 1) {
       positions.push([r, c]);
     }
   }
