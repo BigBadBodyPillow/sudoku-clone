@@ -2,8 +2,8 @@
 import './App.css';
 
 //components
-import RainbowLine from './components/RainbowLine';
-import Board from './components/Board';
+import RainbowLine from './components/RainbowLine/RainbowLine';
+import Board from './components/Board/Board';
 
 function App() {
   // hold number then click cell will input that number
