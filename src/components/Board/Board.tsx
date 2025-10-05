@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 // import { useMemo } from 'react';
 import {
+  type Grid,
+  type NotesGrid,
   cloneGrid,
   generateCompletedGrid,
   isValidMove,
   makePuzzle,
-  type Grid,
+  createEmptyNotesGrid,
 } from '../../utils/sudoku';
 
 //css
@@ -28,6 +30,7 @@ function Board() {
   const [puzzle, setPuzzle] = useState<Grid | null>(null);
   const [solution, setSolution] = useState<Grid | null>(null);
   const [userGrid, setUserGrid] = useState<Grid | null>(null);
+  const [notesGrid, setNotesGrid] = useState<NotesGrid>(createEmptyNotesGrid());
   const [noteEditingStatus, setNoteEditingStatus] = useState<boolean>(false);
 
   // create new game.
@@ -38,9 +41,11 @@ function Board() {
     // s is the complete game board.
     // p isthe version with suqres removed untill it reaches the clues perameter
     const { puzzle: p, solution: s } = makePuzzle({ completed, clues: 40 });
+
     setPuzzle(p);
     setSolution(s);
     setUserGrid(cloneGrid(p));
+    setNotesGrid(createEmptyNotesGrid());
   };
 
   useEffect(() => {
@@ -63,10 +68,35 @@ function Board() {
     // prevent changes to clue squares
     if (puzzle[row][col] !== 0) return;
 
-    // copy the game board
-    const next = cloneGrid(userGrid);
-
     const trimmed = value.trim();
+
+    // toggle notes mode
+    if (noteEditingStatus) {
+      if (trimmed === '') return; // ignore empty
+
+      const note = Number(trimmed);
+
+      //if not number, 0 or > 9 ignore
+      if (!Number.isInteger(note) || note < 1 || note > 9) return;
+
+      setNotesGrid((prev) => {
+        const next: NotesGrid = prev.map((row) =>
+          row.map((col) => new Set<number>(col))
+        );
+
+        const cellNotes = next[row][col];
+
+        // if the number already exists, remove it
+        if (cellNotes.has(note)) cellNotes.delete(note);
+        // otherwise add it
+        else cellNotes.add(note);
+
+        return next;
+      });
+      return;
+    }
+
+    const next = cloneGrid(userGrid); // copy the game board
 
     // if empty set to 0
     if (trimmed === '') {
@@ -75,12 +105,22 @@ function Board() {
     // otherwise set the user input
     else {
       const num = Number(trimmed);
+
       if (Number.isInteger(num) && num >= 1 && num <= 9) {
-        next[row][col] = num;
+        next[row][col] = num; // set the note
       }
     }
-
     setUserGrid(next);
+
+    // clear notes when a number is added and not editing
+    setNotesGrid((prev) => {
+      const nextNotes: NotesGrid = prev.map((row) =>
+        row.map((col) => new Set<number>(col))
+      );
+      nextNotes[row][col].clear();
+
+      return nextNotes;
+    });
   };
 
   //checks if cell is a clue or invalid (main purpose is styling)
@@ -107,13 +147,7 @@ function Board() {
 
     if (allowed.includes(e.key)) return; // allow
     if (/^[1-9]$/.test(e.key)) return; // allow
-
-    // block everything else
-    e.preventDefault();
-  };
-
-  const allowNotesEditing = () => {
-    setNoteEditingStatus(!noteEditingStatus);
+    e.preventDefault(); // block everything else
   };
 
   return (
@@ -193,23 +227,43 @@ function Board() {
                         {isReady && puzzle ? puzzle[row][col] : ''}
                       </span>
                     ) : (
-                      <input
-                        className="square-input"
-                        // name={`input ${squareIndex + 1}`}
-                        inputMode="numeric"
-                        pattern="[1-9]"
-                        maxLength={1}
-                        value={value === 0 ? '' : String(value)}
-                        onKeyDown={handleKeyDown}
-                        //replace anything thats not 1-9 with nothing
-                        onChange={(e) =>
-                          handleChange({
-                            row,
-                            col,
-                            value: e.target.value.replace(/[^1-9]/g, ''),
-                          })
-                        }
-                      />
+                      <div className="square-cell">
+                        {/* notes overlay for empty cells */}
+                        {value === 0 ? (
+                          <div className="notes-grid" aria-hidden="true">
+                            {/* notes placeholders */}
+                            {Array.from({ length: 9 }, (_, i) => {
+                              const n = i + 1;
+                              const has = notesGrid[row][col].has(n);
+                              return (
+                                <span
+                                  key={n}
+                                  className={`note${has ? ' present' : ''}`}
+                                >
+                                  {has ? n : ''}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        ) : null}
+                        <input
+                          className="square-input"
+                          // name={`input ${squareIndex + 1}`}
+                          inputMode="numeric"
+                          pattern="[1-9]"
+                          maxLength={1}
+                          value={value === 0 ? '' : String(value)}
+                          onKeyDown={handleKeyDown}
+                          //replace anything thats not 1-9 with nothing
+                          onChange={(e) =>
+                            handleChange({
+                              row,
+                              col,
+                              value: e.target.value.replace(/[^1-9]/g, ''),
+                            })
+                          }
+                        />
+                      </div>
                     )}
                   </div>
                 );
@@ -217,16 +271,24 @@ function Board() {
             </div>
           ))}
         </div>
+
         <div className="controls">
-          <button className="new-game-button" onClick={regenerate}>
+          <button
+            className="new-game-button"
+            onClick={regenerate}
+            title="start a new game with a new board"
+          >
             new game
           </button>
           <button
             aria-pressed={noteEditingStatus}
             className="notes-button"
-            onClick={allowNotesEditing}
+            onClick={() =>
+              setNoteEditingStatus((currentValue) => !currentValue)
+            }
+            title="Toggle notes mode (type digits to add/remove notes)"
           >
-            Notes
+            notes
           </button>
         </div>
       </div>

@@ -15,11 +15,13 @@
 - [x] start
 - [x] create grid
 - [x] make it work
-- [ ] add the notes thing
+- [x] add the notes thing
+- [ ] remove notes from row/column/subgrid when an actual number is inputed
 - [ ] testing
 - [ ] add 'number pad' that appears when cell is clicked(not focused? & not on mobile)
 - [ ] theme changer
 - [ ] font size changer
+- [ ] refactor js and move stuff into their own components
 - [ ] optimise for performance and readability
 - [ ] animation when board/row/column is correct
 

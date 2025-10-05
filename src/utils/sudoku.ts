@@ -1,5 +1,9 @@
 export type Grid = number[][];
 
+// 9x9 grid of Sets of notes from 1-9
+// an array of aarrays of sets that have numbers in them
+export type NotesGrid = Array<Array<Set<number>>>;
+
 interface IsSafeParams {
   grid: Grid;
   row: number;
@@ -30,6 +34,12 @@ const boardSize = 3; // 3x3 cells = 1 board
 // this makes up the 81 total numbers for the game
 function createEmptyGrid(): Grid {
   return Array.from({ length: gridSize }, () => Array(gridSize).fill(0));
+}
+
+export function createEmptyNotesGrid(): NotesGrid {
+  return Array.from({ length: 9 }, () =>
+    Array.from({ length: 9 }, () => new Set<number>())
+  );
 }
 
 // randomize the numbers

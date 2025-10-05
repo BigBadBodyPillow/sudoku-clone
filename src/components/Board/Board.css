@@ -111,10 +111,10 @@
 
 /* .square.editable {
   background: var(--square-colour);
-}
-.square.editable:hover {
-  background: var(--border-colour);
-} */
+  }
+  .square.editable:hover {
+    background: var(--border-colour);
+    } */
 
 .square.invalid {
   outline: 2px solid var(--invalid-colour);
@@ -123,6 +123,11 @@
 
 .square-text {
   user-select: none;
+}
+.square-cell {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .square-input {
@@ -141,6 +146,26 @@
   /* outline: none; */
   z-index: 1;
   border-radius: var(--border-radius);
+}
+
+.notes-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  pointer-events: none;
+  color: var(--text-colour_alt);
+  opacity: 0.9;
+  font-size: 0.5em;
+}
+.notes-grid .note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notes-grid .note.present {
+  opacity: 1;
 }
 
 .controls {
