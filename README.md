@@ -16,7 +16,7 @@
 - [x] create grid
 - [x] make it work
 - [x] add the notes thing
-- [ ] remove notes from row/column/subgrid when an actual number is inputed
+- [x] remove notes from row/column/subgrid when an actual number is inputed
 - [ ] add 'number pad' that appears when cell is clicked(not focused? & not on mobile)
 - [ ] refactor js and move stuff into their own components
 - [ ] theme changer
