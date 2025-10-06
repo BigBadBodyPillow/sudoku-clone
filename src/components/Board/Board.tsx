@@ -112,12 +112,43 @@ function Board() {
     }
     setUserGrid(next);
 
-    // clear notes when a number is added and not editing
+    // if the placed value is valid, remove that digit from notes in row/col/subgrid
+    const placed = next[row][col];
+    const isPlacedValid =
+      placed !== 0 && isValidMove({ grid: next, row, col, value: placed });
+
     setNotesGrid((prev) => {
       const nextNotes: NotesGrid = prev.map((row) =>
         row.map((col) => new Set<number>(col))
       );
+
+      // always clear notes when a number is entered
       nextNotes[row][col].clear();
+
+      if (isPlacedValid) {
+        const digit = placed;
+        // clear row
+        for (let c = 0; c < 9; c += 1) {
+          if (c !== col) nextNotes[row][c].delete(digit);
+        }
+        // clear column
+        for (let r = 0; r < 9; r += 1) {
+          if (r !== row) nextNotes[r][col].delete(digit);
+        }
+
+        const startRow = row - (row % 3);
+        const startCol = col - (col % 3);
+
+        // clear subgrid
+        for (let row = 0; row < 3; row += 1) {
+          for (let col = 0; col < 3; col += 1) {
+            const boardRow = startRow + row;
+            const boardColumn = startCol + col;
+            if (boardRow === row && boardColumn === col) continue;
+            nextNotes[boardRow][boardColumn].delete(digit);
+          }
+        }
+      }
 
       return nextNotes;
     });

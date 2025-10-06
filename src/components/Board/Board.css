@@ -111,10 +111,10 @@
 
 /* .square.editable {
   background: var(--square-colour);
-  }
-  .square.editable:hover {
-    background: var(--border-colour);
-    } */
+}
+.square.editable:hover {
+  background: var(--border-colour);
+} */
 
 .square.invalid {
   outline: 2px solid var(--invalid-colour);
@@ -140,6 +140,7 @@
   border: none;
   color: var(--text-colour);
   font: inherit;
+  caret-color: transparent;
 }
 .square-input:focus {
   outline: 2px solid var(--accent-colour);
@@ -176,5 +177,5 @@
 .controls .notes-button[aria-pressed='true'] {
   background: var(--accent-colour);
   color: white;
-  /* opacity: 1; */
+  opacity: 1; /* to stop the hover */
 }
