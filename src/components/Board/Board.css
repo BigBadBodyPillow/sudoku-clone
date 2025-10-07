@@ -174,7 +174,7 @@
 .keypad-delete {
   width: 100%;
   height: 1.66em; /* ~about 40px at highest font size */
-  color: var(var(--text-colour));
+  color: var(--text-colour);
   grid-column-start: 1;
   grid-column-end: 4;
 }
