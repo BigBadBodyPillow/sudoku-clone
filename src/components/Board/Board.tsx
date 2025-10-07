@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // import { useMemo } from 'react';
 import {
   type Grid,
@@ -18,7 +18,7 @@ interface HandleChangeParams {
   col: number;
   value: string;
 }
-interface cellStatusParams {
+interface cellPositionParams {
   row: number;
   col: number;
 }
@@ -32,6 +32,9 @@ function Board() {
   const [userGrid, setUserGrid] = useState<Grid | null>(null);
   const [notesGrid, setNotesGrid] = useState<NotesGrid>(createEmptyNotesGrid());
   const [noteEditingStatus, setNoteEditingStatus] = useState<boolean>(false);
+  const [activeCell, setActiveCell] = useState<cellPositionParams | null>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
+  const keypadRef = useRef<HTMLDivElement | null>(null);
 
   // create new game.
   // set what the user sees
@@ -52,6 +55,34 @@ function Board() {
     regenerate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // disable keypad if on mobile
+  useEffect(() => {
+    const hasTouch =
+      (typeof window !== 'undefined' && 'ontouchstart' in window) ||
+      (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0) ||
+      (typeof window !== 'undefined' &&
+        window.matchMedia &&
+        window.matchMedia('(pointer: coarse)').matches);
+    setIsTouchDevice(!!hasTouch);
+  }, []);
+
+  // hide keypad when clicking outside of it
+  useEffect(() => {
+    if (!activeCell) return;
+
+    const handleDown = (e: MouseEvent) => {
+      const target = e.target as Node | null;
+      if (keypadRef.current && target && keypadRef.current.contains(target))
+        return;
+      setActiveCell(null);
+    };
+
+    document.addEventListener('mousedown', handleDown, true);
+    return () => {
+      document.removeEventListener('mousedown', handleDown, true);
+    };
+  }, [activeCell]);
 
   // caches flag to avoid rendering work until everything exists
   // const isReady = useMemo(
@@ -155,7 +186,7 @@ function Board() {
   };
 
   //checks if cell is a clue or invalid (main purpose is styling)
-  const cellStatus = ({ row, col }: cellStatusParams) => {
+  const cellStatus = ({ row, col }: cellPositionParams) => {
     if (!puzzle || !userGrid) {
       return { given: false, invalid: false } as const;
     }
@@ -258,7 +289,13 @@ function Board() {
                         {isReady && puzzle ? puzzle[row][col] : ''}
                       </span>
                     ) : (
-                      <div className="square-cell">
+                      <div
+                        className="square-cell"
+                        onClick={() => {
+                          if (isTouchDevice) return; // not show keypad on mobile/touch
+                          setActiveCell({ row, col });
+                        }}
+                      >
                         {/* notes overlay for empty cells */}
                         {value === 0 ? (
                           <div className="notes-grid" aria-hidden="true">
@@ -294,6 +331,51 @@ function Board() {
                             })
                           }
                         />
+                        {/* keypad shown only on desktop and only for the active cell */}
+                        {!isTouchDevice &&
+                        activeCell &&
+                        activeCell.row === row &&
+                        activeCell.col === col ? (
+                          <div
+                            className="keypad"
+                            ref={keypadRef}
+                            onMouseDown={(e) => e.stopPropagation()}
+                          >
+                            {Array.from({ length: 9 }, (_, i) => {
+                              // const n = i;
+                              const numpadKey = i + 1;
+                              return (
+                                <button
+                                  key={numpadKey}
+                                  className="keypad-key"
+                                  type="button"
+                                  onClick={() => {
+                                    handleChange({
+                                      row,
+                                      col,
+                                      value: String(numpadKey),
+                                    });
+                                    setActiveCell(null);
+                                  }}
+                                >
+                                  {numpadKey}
+                                </button>
+                              );
+                            })}
+                            {!noteEditingStatus ? (
+                              <button
+                                type="button"
+                                className="keypad-key keypad-delete"
+                                onClick={() => {
+                                  handleChange({ row, col, value: '' });
+                                  setActiveCell(null);
+                                }}
+                              >
+                                delete
+                              </button>
+                            ) : null}
+                          </div>
+                        ) : null}
                       </div>
                     )}
                   </div>

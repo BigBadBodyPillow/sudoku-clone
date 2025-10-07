@@ -67,19 +67,22 @@
   border-radius: var(--border-radius);
   background: var(--border-colour);
 
-  font-size: 1.5em;
+  /* font-size: 1.5em; */
+  font-size: clamp(16px, 1.5em, 24px);
 }
 
 @media (width <= 800px) {
   .board {
     /* font-size: 0.75rem; */
-    font-size: 1rem;
+    /* font-size: 1rem; */
+    font-size: clamp(16px, 1em, 24px);
   }
 }
 @media (width <= 500px) {
   .board {
     /* font-size: 0.5rem; */
-    font-size: 0.75rem;
+    /* font-size: 0.75rem; */
+    font-size: clamp(16px, 0.75em, 24px);
   }
 }
 
@@ -130,6 +133,58 @@
   height: 100%;
 }
 
+/* keypad below the active cell (desktop only) */
+.keypad {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  margin-top: 0.25rem;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 0.15rem;
+  background: var(--keypad-background);
+  padding: 0.25rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+  z-index: 10;
+}
+
+.keypad-key {
+  box-sizing: border-box;
+  appearance: none;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0;
+  width: 2.1em; /* ~about 50px at highest font size */
+  aspect-ratio: 1/1;
+  background: var(--square-colour);
+  color: var(--text-colour);
+  font: inherit;
+  cursor: pointer;
+}
+/* .keypad-key:hover {
+  background: var(--square-colour_hover);
+}
+.keypad-key:active {
+  background: var(--square-colour_active);
+} */
+
+.keypad-delete {
+  width: 100%;
+  height: 1.66em; /* ~about 40px at highest font size */
+  color: var(var(--text-colour));
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+.keypad-delete:hover {
+  filter: brightness(0.95);
+}
+.keypad-delete:active {
+  filter: brightness(0.9);
+}
+
 .square-input {
   cursor: pointer;
   box-sizing: border-box;
@@ -158,7 +213,8 @@
   pointer-events: none;
   color: var(--text-colour_alt);
   opacity: 0.9;
-  font-size: 0.5em;
+  /* font-size: 0.5em; */
+  font-size: clamp(16px, 0.5em, 24px);
 }
 .notes-grid .note {
   display: flex;
@@ -169,6 +225,10 @@
   opacity: 1;
 }
 
+/* ios defaults to a blue1 */
+button {
+  color: var(--text-colour);
+}
 .controls {
   display: flex;
   justify-content: space-between;

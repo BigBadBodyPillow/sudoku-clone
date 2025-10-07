@@ -9,6 +9,7 @@
   --square-colour_hover: rgb(13, 13, 13);
   --square-colour_active: var(--accent-colour); /*idk*/
   --button-colour: rgb(20, 20, 20);
+  --keypad-background: rgb(27, 27, 27);
   /* --button-colour_hover: rgb(15, 15, 15); */
 }
 /* lightmode */
@@ -22,6 +23,7 @@
     --square-colour_hover: rgb(237, 237, 237);
     --square-colour_active: var(--accent-colour); /*idk*/
     --button-colour: rgb(230, 230, 230);
+    --keypad-background: rgb(220, 220, 220);
     /* --button-colour_hover: rgb(228, 228, 228); */
   }
 }
@@ -95,3 +97,23 @@ button:active {
 button:focus-visible {
   outline: 2px solid var(--accent-colour);
 }
+
+/* ios zooms if fontsize is less thatn 16px */
+/* input[type='color'],
+input[type='date'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='email'],
+input[type='month'],
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='time'],
+input[type='url'],
+input[type='week'],
+select:focus,
+textarea {
+  font-size: clamp(16px, what want, max); 
+} */
