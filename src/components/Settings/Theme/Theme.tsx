@@ -38,10 +38,6 @@ export default function Theme() {
   const collapsibleOpen = () => {
     setOpenStatus(!openStatus);
   };
-  //disable submit
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
 
   return (
     <>
