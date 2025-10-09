@@ -1,4 +1,10 @@
 import { useState } from 'react';
+
+//components
+import Font from './Font/Font';
+import Theme from './Theme/Theme';
+
+//css
 import './Settings.css';
 
 export default function Settings() {
@@ -12,20 +18,18 @@ export default function Settings() {
     <>
       <div className="settings__container">
         <div className="settings__dropdown-wrapper">
-          <button className="settings__button" onClick={settingsOpen}>
+          <button
+            className="settings__button"
+            onClick={settingsOpen}
+            title="open / close settings"
+          >
             settings
           </button>
-          {/* <div className={`settings__dropdown `+ SettingsOpenStatus?}}> */}
           <div
-            // className={`settings__dropdown`}
-            className={
-              settingsOpenStatus
-                ? `open settings__dropdown`
-                : 'settings__dropdown'
-            }
+            className={`settings__dropdown ${settingsOpenStatus ? `open` : ``}`}
           >
-            <a href="#">font</a>
-            <a href="#">theme</a>
+            <Font />
+            <Theme />
           </div>
         </div>
       </div>

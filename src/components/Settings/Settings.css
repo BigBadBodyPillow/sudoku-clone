@@ -12,6 +12,7 @@
   color: white;
   box-shadow: var(--boxshadow);
 }
+
 .settings__dropdown-wrapper {
   position: relative;
   display: inline-block;
@@ -23,23 +24,58 @@
   display: none;
   position: absolute;
   background-color: var(--square-colour);
-  width: 100%;
+  min-width: 100%;
+  width: max-content;
   box-shadow: var(--boxshadow);
   z-index: 1;
+  right: 0;
 }
 
-.settings__dropdown a {
+.settings__dropdown .collapsible {
   border-radius: var(--border-radius);
   padding: 12px 16px;
   text-decoration: none;
   display: block;
   color: var(--text-colour);
+  width: 100%;
+
+  background-color: transparent;
+  border: none;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
 }
 
-.settings__dropdown a:hover {
+/* hover or has a sibling thats open*/
+.settings__dropdown .collapsible:hover,
+.settings__dropdown .collapsible:has(+ .open) {
+  opacity: 1;
   background-color: var(--square-colour_hover);
+}
+/* has a sibling thats open */
+.settings__dropdown .collapsible:has(+ .open) {
+  padding-inline: 0 2.16rem; /* magic number will fix later */
+  text-align: end;
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--square-colour),
+    var(--square-colour) 10px,
+    var(--square-colour_hover) 10px,
+    var(--square-colour_hover) 20px
+  );
 }
 
 .open {
-  display: block;
+  /* important is needed because of specificity i think*/
+  display: block !important;
+}
+.settings__dropdown .content {
+  padding: 12px 18px;
+  display: none;
+  overflow: hidden;
+  background-color: var(--square-colour_hover);
+}
+
+.settings__dropdown .content p {
+  margin-top: 0;
 }

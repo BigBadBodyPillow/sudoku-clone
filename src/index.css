@@ -1,10 +1,10 @@
 /* ////// colours ////// */
 /* dark */
 :root {
-  --background-colour: rgb(11, 11, 11);
-  --border-colour: rgb(15, 15, 15);
   --text-colour: rgba(255, 255, 255, 0.87);
   --text-colour_alt: rgba(255, 255, 255, 0.5);
+  --background-colour: rgb(11, 11, 11);
+  --border-colour: rgb(15, 15, 15);
   --square-colour: rgb(11, 11, 11);
   --square-colour_hover: rgb(13, 13, 13);
   --square-colour_active: var(--accent-colour); /*idk*/
@@ -15,10 +15,10 @@
 /* lightmode */
 @media (prefers-color-scheme: light) {
   :root {
-    --background-colour: rgb(244, 244, 244);
-    --border-colour: rgb(228, 228, 228);
     --text-colour: rgba(11, 11, 11, 0.87);
     --text-colour_alt: rgba(11, 11, 11, 0.5);
+    --background-colour: rgb(244, 244, 244);
+    --border-colour: rgb(228, 228, 228);
     --square-colour: rgb(244, 244, 244);
     --square-colour_hover: rgb(237, 237, 237);
     --square-colour_active: var(--accent-colour); /*idk*/
@@ -29,6 +29,8 @@
 }
 /* ////// global variabls ////// `*/
 :root {
+  /* font is changed with react*/
+  --app-font: 'Space Grotesk', system-ui, Avenir, Helvetica, Arial, sans-serif;
   --border-radius: 0.3rem;
   --game-background-colour: rgba(64, 0, 255, 0.249);
   --invalid-colour: rgb(255, 77, 79);
@@ -36,7 +38,8 @@
 }
 
 :root {
-  font-family: 'Space Grotesk', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--app-font);
+
   line-height: 1.5;
   font-weight: 400;
   /* box-sizing: border-box; */
