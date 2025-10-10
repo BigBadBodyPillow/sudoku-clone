@@ -40,7 +40,7 @@
 }
 
 :root {
-  font-family: var(--app-font);
+  font-family: var(--font-family);
   font-size: var(--font-size);
   line-height: 1.5;
   font-weight: 400;

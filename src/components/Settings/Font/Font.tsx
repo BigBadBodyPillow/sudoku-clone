@@ -17,7 +17,7 @@ export default function Font() {
     // if there is a font in local storage return it
     const fontInState = fontInLocalStorage
       ? JSON.parse(fontInLocalStorage)
-      : null;
+      : 'Space Grotesk';
 
     return fontInState || '';
   });
@@ -26,7 +26,7 @@ export default function Font() {
     // if there is a font size in local storage return it
     const fontSizeInState = fontSizeInLocalStorage
       ? JSON.parse(fontSizeInLocalStorage)
-      : null;
+      : '16';
 
     return fontSizeInState || '';
   });
@@ -111,7 +111,7 @@ export default function Font() {
             id="font-size_input"
             type="number"
             min="1"
-            // if value is not set it starts at 1px...
+            // if value is not set it starts at 1... which makes it hard to see
             value={currentFontSize}
             // placeholder={currentFontSize}
             onChange={chooseFontSize}
