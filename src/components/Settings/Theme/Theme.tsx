@@ -47,20 +47,19 @@ export default function Theme() {
       <div className={`content ${openStatus ? `open` : ``}`}>
         <div className="colours__container">
           {colours.map((colour) => (
-            // <div className="theme__colour__container">
             <div
               key={colour}
               className={`theme__colour`}
               title={`${colour} colour `}
+              tabIndex={0}
             ></div>
-            // <p>{colour}</p>
-            // </div>
           ))}
         </div>
-        {/* <p>an imamgeriant list of all colours</p> */}
-        {/* <div>
-          <p>an imageneratyu colour picker</p>
-        </div> */}
+        <label className="selected-colour">asd</label>
+        {/* <label className="selected-colour">&nbsp;</label> */}
+        <div className="colour-picker">
+          <input type="color" value={`rgb(255,138,190)`} tabIndex={0}></input>
+        </div>
       </div>
     </>
   );

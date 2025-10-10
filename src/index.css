@@ -30,7 +30,9 @@
 /* ////// global variabls ////// `*/
 :root {
   /* font is changed with react*/
-  --app-font: 'Space Grotesk', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family: 'Space Grotesk', system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+  --font-size: 16px;
   --border-radius: 0.3rem;
   --game-background-colour: rgba(64, 0, 255, 0.249);
   --invalid-colour: rgb(255, 77, 79);
@@ -39,7 +41,7 @@
 
 :root {
   font-family: var(--app-font);
-
+  font-size: var(--font-size);
   line-height: 1.5;
   font-weight: 400;
   /* box-sizing: border-box; */
@@ -81,7 +83,6 @@ button {
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
-  /* font-weight: 500; */
   font-family: inherit;
   background-color: var(--button-colour);
   cursor: pointer;
@@ -100,7 +101,16 @@ button:active {
 button:focus-visible {
   outline: 2px solid var(--accent-colour);
 }
-
+input {
+  font: inherit;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-colour);
+  background-color: var(--background-colour);
+  color: var(--text-colour_alt);
+}
+input:focus-visible {
+  outline: 2px solid var(--accent-colour);
+}
 /* ios zooms if fontsize is less thatn 16px */
 /* input[type='color'],
 input[type='date'],

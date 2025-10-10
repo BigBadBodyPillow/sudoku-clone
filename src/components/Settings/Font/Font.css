@@ -1,0 +1,11 @@
+input[name='font_input'] {
+  width: 10em; /* a reasonable size i thinkh*/
+}
+input[name='font-size_input'] {
+  width: 5em; /* should be more than wide enough*/
+}
+
+/* <br/> was too much */
+form:has(label[for='font-size_input']) {
+  margin-top: 0.5em;
+}

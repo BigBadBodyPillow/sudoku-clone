@@ -23,7 +23,7 @@
   border-radius: var(--border-radius);
   display: none;
   position: absolute;
-  background-color: var(--square-colour);
+  background-color: var(--square-colour_hover);
   min-width: 100%;
   width: max-content;
   box-shadow: var(--boxshadow);
@@ -50,7 +50,17 @@
 .settings__dropdown .collapsible:hover,
 .settings__dropdown .collapsible:has(+ .open) {
   opacity: 1;
-  background-color: var(--square-colour_hover);
+  background-color: var(--button-colour);
+}
+/* no radius on the top of first one */
+.settings__dropdown .collapsible:nth-child(1) {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+/* no radius on the bottom of the last one */
+.settings__dropdown .collapsible:nth-child(3) {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
 }
 /* has a sibling thats open */
 .settings__dropdown .collapsible:has(+ .open) {
@@ -78,4 +88,9 @@
 
 .settings__dropdown .content p {
   margin-top: 0;
+}
+.settings__dropdown .content form {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
