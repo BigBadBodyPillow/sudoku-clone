@@ -39,7 +39,7 @@ const colourMapping = [
 export default function Theme() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedColour, setSelectedColour] = useState<number>(0);
-  const [colour, setColour] = useState({ r: 200, g: 150, b: 35, a: 0.5 });
+  const [colour, setColour] = useState({ r: 255, g: 255, b: 255, a: 1 });
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -50,26 +50,6 @@ export default function Theme() {
     return getComputedStyle(document.documentElement)
       .getPropertyValue(variable)
       .trim();
-  };
-
-  // attempt to resolve an issue only in production and not in dev
-  // try to resolve by applying the colour to a temporary element
-  const resolveCssVariable = (variable: string): string => {
-    const raw = getCurrentColourValue(variable);
-    if (raw) return raw;
-
-    if (typeof document === 'undefined' || !document.body) return '';
-
-    const temp = document.createElement('div');
-    temp.style.display = 'none';
-
-    // set color so that the computed style will resolve the colour
-    temp.style.color = `var(${variable})`;
-    document.body.appendChild(temp);
-    const resolved = getComputedStyle(temp).color;
-    document.body.removeChild(temp);
-
-    return resolved.trim();
   };
 
   //convert css colour to json in the way the component requires.
@@ -102,7 +82,7 @@ export default function Theme() {
     }
 
     // otherwise keep dafault
-    return { r: 200, g: 150, b: 35, a: 1 };
+    return { r: 0, g: 0, b: 0, a: 0 };
   };
 
   // turn the list to string
@@ -119,43 +99,17 @@ export default function Theme() {
   };
 
   // load theme from storage when appl;ication loads
-  // useEffect(() => {
-  //   loadThemeFromStorage();
-  // }, []);
   useEffect(() => {
-    const init = () => {
-      loadThemeFromStorage();
-
-      //wait for stylesheet to load ??
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const selectedColourMapping = colourMapping[selectedColour];
-          const resolved = resolveCssVariable(selectedColourMapping.variable);
-          if (resolved) {
-            setColour(parseColourToRgba(resolved));
-          }
-        });
-      });
-    };
-
-    if (typeof window === 'undefined') return;
-    if (document.readyState === 'complete') {
-      init();
-    } else {
-      window.addEventListener('load', init, { once: true });
-      return () => window.removeEventListener('load', init);
-    }
+    loadThemeFromStorage();
+    // saveThemeToStorage();
   }, []);
 
   // update colour picker when selected colour changes
   useEffect(() => {
     const selectedColourMapping = colourMapping[selectedColour];
-    const currentcolourValue = resolveCssVariable(
+    const currentcolourValue = getCurrentColourValue(
       selectedColourMapping.variable
     );
-    // const currentcolourValue = getCurrentColourValue(
-    //   selectedColourMapping.variable
-    // );
     const rgbaColour = parseColourToRgba(currentcolourValue);
     setColour(rgbaColour);
   }, [selectedColour]);
@@ -209,6 +163,7 @@ export default function Theme() {
     );
     const rgbaColour = parseColourToRgba(currentcolourValue);
     setColour(rgbaColour);
+    saveThemeToStorage();
   };
 
   // change css variable to new colour
@@ -220,11 +175,11 @@ export default function Theme() {
   }) => {
     setColour(newColour); // update state
     const selectedColourMapping = colourMapping[selectedColour];
-    const colourString = rgbaToString(newColour);
+    const handleColourSelect = rgbaToString(newColour);
     // change css
     document.documentElement.style.setProperty(
       selectedColourMapping.variable,
-      colourString
+      handleColourSelect
     );
 
     // Save to localStorage
@@ -255,8 +210,7 @@ export default function Theme() {
                 selectedColour === index ? 'selected' : ''
               }`}
               style={{
-                backgroundColor: resolveCssVariable(colour.variable),
-                // backgroundColor: getCurrentColourValue(colour.variable),
+                backgroundColor: getCurrentColourValue(colour.variable),
               }}
               title={`${colour.name} colour`}
               tabIndex={0}
