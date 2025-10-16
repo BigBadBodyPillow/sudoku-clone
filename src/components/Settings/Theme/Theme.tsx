@@ -82,7 +82,7 @@ export default function Theme() {
     }
 
     // otherwise keep dafault
-    return { r: 0, g: 0, b: 0, a: 0 };
+    return { r: 1, g: 2, b: 3, a: 4 };
   };
 
   // turn the list to string
