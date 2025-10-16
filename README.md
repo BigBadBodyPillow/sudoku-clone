@@ -37,6 +37,7 @@
 - Highschool math is actually usefull
 - [Fisher Yates (un?-)Sorting alorithm](https://www.w3schools.com/js/js_array_sort.asp)
 - Maybe it would be better to use a canvas... [sudoku.com](https://sudoku.com) uses it? I dont have experience with it yet so ill consider that for furture projects
+- I cant just test in dev, i have to build aswell; specifically i encountered an issue where in dev css colours are returned as rgb but in build it becomes hex
 
 ## Logic
 

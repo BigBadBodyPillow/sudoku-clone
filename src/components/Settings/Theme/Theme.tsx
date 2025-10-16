@@ -56,33 +56,70 @@ export default function Theme() {
   const parseColourToRgba = (
     colourValue: string
   ): { r: number; g: number; b: number; a: number } => {
-    // sotres the inputed rgb value and the r/g/b indicuviually
-    const rgbaMatch = colourValue.match(
-      /rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/
-    );
+    const rgbRegex = /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/;
+    const hexRegex = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i;
+    const fallback = { r: 254, g: 112, b: 202, a: 1 };
+    const value = (colourValue || '').trim();
 
-    // sotres the inputed rgba value and the r/g/b/a indicuviually
-    const rgbMatch = colourValue.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (!value) return fallback;
 
-    // seprate the values
+    // match rgb() / rgba()
+    const rgbaMatch = value.match(rgbRegex);
+
     if (rgbaMatch) {
       return {
-        r: parseInt(rgbaMatch[1]),
-        g: parseInt(rgbaMatch[2]),
-        b: parseInt(rgbaMatch[3]),
-        a: parseFloat(rgbaMatch[4]),
-      };
-    } else if (rgbMatch) {
-      return {
-        r: parseInt(rgbMatch[1]),
-        g: parseInt(rgbMatch[2]),
-        b: parseInt(rgbMatch[3]),
-        a: 1,
+        r: parseInt(rgbaMatch[1], 10),
+        g: parseInt(rgbaMatch[2], 10),
+        b: parseInt(rgbaMatch[3], 10),
+        a: rgbaMatch[4] ? parseFloat(rgbaMatch[4]) : 1,
       };
     }
 
-    // otherwise keep dafault
-    return { r: 1, g: 2, b: 3, a: 4 };
+    // match hex #rgb or #rrggbb
+    const hexMatch = value.match(hexRegex);
+    if (hexMatch) {
+      const hex = hexMatch[1];
+      let r: number, g: number, b: number;
+
+      if (hex.length === 3) {
+        r = parseInt(hex[0] + hex[0], 16);
+        g = parseInt(hex[1] + hex[1], 16);
+        b = parseInt(hex[2] + hex[2], 16);
+      } else {
+        r = parseInt(hex.slice(0, 2), 16);
+        g = parseInt(hex.slice(2, 4), 16);
+        b = parseInt(hex.slice(4, 6), 16);
+      }
+
+      return { r, g, b, a: 1 };
+    }
+
+    // creat temp elements to try to compute colour
+    try {
+      const temp = document.createElement('div');
+      temp.style.color = value;
+
+      // append off-document if no body yet (safe guard)
+      const host = document.body || document.documentElement;
+      host.appendChild(temp);
+      const computed = getComputedStyle(temp).color;
+      host.removeChild(temp);
+
+      const computedMatch = computed.match(rgbRegex);
+      if (computedMatch) {
+        return {
+          r: parseInt(computedMatch[1], 10),
+          g: parseInt(computedMatch[2], 10),
+          b: parseInt(computedMatch[3], 10),
+          a: computedMatch[4] ? parseFloat(computedMatch[4]) : 1,
+        };
+      }
+    } catch {
+      // ignore, set back to default
+    }
+
+    // fallback
+    return fallback;
   };
 
   // turn the list to string
