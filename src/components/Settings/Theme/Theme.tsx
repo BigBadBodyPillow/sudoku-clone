@@ -119,9 +119,32 @@ export default function Theme() {
   };
 
   // load theme from storage when appl;ication loads
+  // useEffect(() => {
+  //   loadThemeFromStorage();
+  // }, []);
   useEffect(() => {
-    loadThemeFromStorage();
-    // saveThemeToStorage();
+    const init = () => {
+      loadThemeFromStorage();
+
+      //wait for stylesheet to load ??
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const selectedColourMapping = colourMapping[selectedColour];
+          const resolved = resolveCssVariable(selectedColourMapping.variable);
+          if (resolved) {
+            setColour(parseColourToRgba(resolved));
+          }
+        });
+      });
+    };
+
+    if (typeof window === 'undefined') return;
+    if (document.readyState === 'complete') {
+      init();
+    } else {
+      window.addEventListener('load', init, { once: true });
+      return () => window.removeEventListener('load', init);
+    }
   }, []);
 
   // update colour picker when selected colour changes
