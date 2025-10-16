@@ -6,7 +6,7 @@
   <img src="https://github.com/user-attachments/assets/62722d91-4e5c-4ce3-958c-9ddf966f1979" alt="cat">
 </p> -->
 <p align="center">
-  <img src="/Sudoku.png" alt="preview">
+  <img src="public/Sudoku.png" alt="preview">
 </p>
 
 ## Features

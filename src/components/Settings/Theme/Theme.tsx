@@ -101,6 +101,7 @@ export default function Theme() {
   // load theme from storage when appl;ication loads
   useEffect(() => {
     loadThemeFromStorage();
+    saveThemeToStorage();
   }, []);
 
   // update colour picker when selected colour changes

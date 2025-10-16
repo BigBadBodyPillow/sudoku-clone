@@ -68,7 +68,6 @@ export default function Font() {
     const root = document.documentElement;
     // const fallbackStack = '16px';
     if (value && root) {
-      console.log('setting font');
       root.style.setProperty('--font-size', `${value}px`);
     }
   }
