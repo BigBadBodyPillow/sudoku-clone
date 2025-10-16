@@ -8,10 +8,10 @@ import Theme from './Theme/Theme';
 import './Settings.css';
 
 export default function Settings() {
-  const [settingsOpenStatus, setSettingsOpenStatus] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const settingsOpen = () => {
-    setSettingsOpenStatus(!settingsOpenStatus);
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -20,14 +20,13 @@ export default function Settings() {
         <div className="settings__dropdown-wrapper">
           <button
             className="settings__button"
-            onClick={settingsOpen}
-            title="open / close settings"
+            onClick={toggleOpen}
+            // ! becuause its techinically false by default and only toggled when the button is clicked.
+            title={`${!isOpen ? `open` : `close`} settings`}
           >
             settings
           </button>
-          <div
-            className={`settings__dropdown ${settingsOpenStatus ? `open` : ``}`}
-          >
+          <div className={`settings__dropdown ${isOpen ? `open` : ``}`}>
             <Font />
             <Theme />
           </div>

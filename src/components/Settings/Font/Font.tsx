@@ -11,34 +11,48 @@ import './Font.css';
 const fonts = ['Space Grotesk', 'Cinzel', 'Roboto Mono', 'Ubuntu'];
 
 export default function Font() {
-  const [openStatus, setOpenStatus] = useState<boolean>(false);
-  const [currentFont, SetCurrentFont] = useState(() => {
-    const fontInLocalStorage = localStorage.getItem('font');
+  const [IsOpen, setIsOpen] = useState<boolean>(false);
+  const [currentFont, setCurrentFont] = useState(() => {
+    const localFont = localStorage.getItem('font');
     // if there is a font in local storage return it
-    const fontInState = fontInLocalStorage
-      ? JSON.parse(fontInLocalStorage)
-      : 'Space Grotesk';
+    const stateFont = localFont ? JSON.parse(localFont) : 'Space Grotesk';
 
-    return fontInState || '';
+    return stateFont || '';
   });
-  const [currentFontSize, SetCurrentFontSize] = useState(() => {
-    const fontSizeInLocalStorage = localStorage.getItem('font size');
+  const [currentFontSize, setCurrentFontSize] = useState(() => {
+    const localFontSize = localStorage.getItem('font size');
     // if there is a font size in local storage return it
-    const fontSizeInState = fontSizeInLocalStorage
-      ? JSON.parse(fontSizeInLocalStorage)
-      : '16';
+    const stateFontSize = localFontSize ? JSON.parse(localFontSize) : '16';
 
-    return fontSizeInState || '';
+    return stateFontSize || '';
   });
 
-  const collapsibleOpen = () => {
-    setOpenStatus(!openStatus);
+  // const savedFont = (() => {
+  //   try {
+  //     const font = localStorage.getItem('font');
+  //     // if not null/undefines/empty parse
+  //     return font ? JSON.parse(font) : '';
+  //   } catch {
+  //     // if error just return an empty string
+  //     return '';
+  //   }
+  // })();
+
+  // if (savedFont) {
+  //   // :root in css
+  //   const root = document.documentElement;
+  //   const backupFonts = ', system-ui, Avenir, Helvetica, Arial, sans-serif';
+  //   root.style.setProperty('--app-font', `${savedFont}${backupFonts}`);
+  // }
+
+  const toggleOpen = () => {
+    setIsOpen(!IsOpen);
   };
 
   // set application wide font to what is selected-
   function chooseFont(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event?.target.value;
-    SetCurrentFont(value);
+    setCurrentFont(value);
     // update CSS var
     const root = document.documentElement;
     const fallbackStack = ', system-ui, Avenir, Helvetica, Arial, sans-serif';
@@ -49,7 +63,7 @@ export default function Font() {
   // set application wide font size to what is selected-
   function chooseFontSize(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event?.target.value;
-    SetCurrentFontSize(value);
+    setCurrentFontSize(value);
     // update CSS var
     const root = document.documentElement;
     // const fallbackStack = '16px';
@@ -76,13 +90,10 @@ export default function Font() {
 
   return (
     <>
-      {/* <a href="#" title="Change font">
-        font
-      </a> */}
-      <button type="button" className="collapsible" onClick={collapsibleOpen}>
+      <button type="button" className="collapsible" onClick={toggleOpen}>
         font
       </button>
-      <div className={`content ${openStatus ? `open` : ``}`}>
+      <div className={`content ${IsOpen ? `open` : ``}`}>
         <form onSubmit={handleSubmit}>
           <label htmlFor="font_input">font:</label>
           {/* <br /> */}
@@ -90,9 +101,7 @@ export default function Font() {
             name="font_input"
             id="font_input"
             type="text"
-            // value={'Space Grotesk'}
             list="optionsList"
-            // value={SetCurrentFont}
             placeholder={currentFont}
             onChange={chooseFont}
           ></input>
@@ -105,7 +114,6 @@ export default function Font() {
         </form>
         <form onSubmit={handleSubmit}>
           <label htmlFor="font-size_input">font size:</label>
-          {/* <br /> */}
           <input
             name="font-size_input"
             id="font-size_input"

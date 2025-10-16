@@ -6,6 +6,7 @@
   --background-colour: rgb(11, 11, 11);
   --border-colour: rgb(15, 15, 15);
   --square-colour: rgb(11, 11, 11);
+  --square-colour_given: rgb(15, 15, 15);
   --square-colour_hover: rgb(13, 13, 13);
   --square-colour_active: var(--accent-colour); /*idk*/
   --button-colour: rgb(20, 20, 20);
@@ -19,6 +20,7 @@
     --text-colour_alt: rgba(11, 11, 11, 0.5);
     --background-colour: rgb(244, 244, 244);
     --border-colour: rgb(228, 228, 228);
+    --square-colour_given: rgb(228, 228, 228);
     --square-colour: rgb(244, 244, 244);
     --square-colour_hover: rgb(237, 237, 237);
     --square-colour_active: var(--accent-colour); /*idk*/
@@ -36,7 +38,7 @@
   --border-radius: 0.3rem;
   --game-background-colour: rgba(64, 0, 255, 0.249);
   --invalid-colour: rgb(255, 77, 79);
-  --accent-colour: #ff70cb;
+  --accent-colour: rgb(255, 112, 203);
 }
 
 :root {
@@ -58,7 +60,7 @@
 
 a {
   font-weight: 500;
-  color: #ff70cb;
+  color: var(--accent-colour);
   text-decoration: inherit;
 }
 a:hover {

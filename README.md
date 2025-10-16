@@ -2,35 +2,39 @@
 
 ## Preview
 
-<p align="center">
+<!-- <p align="center">
   <img src="https://github.com/user-attachments/assets/62722d91-4e5c-4ce3-958c-9ddf966f1979" alt="cat">
+</p> -->
+<p align="center">
+  <img src="/Sudoku.png" alt="preview">
 </p>
 
 ## Features
 
-- The game
 - Notes
 - keypad
+- customisation
+  - font
+  - theme colours
 
 ## Todo
 
-- [x] start
-- [x] create grid
 - [x] make it work
 - [x] add the notes thing
 - [x] remove notes from row/column/subgrid when an actual number is inputed
 - [x] add 'number pad' that appears when cell is clicked(not focused? & not on mobile)
 - [x] font changer
-- [ ] theme changer
+- [x] theme changer
 - [x] font size changer
-- [ ] refactor js and move stuff into their own components
-- [ ] optimise for performance and readability
-- [ ] animation when board/row/column is correct
+- [ ] do something when win
+- [ ] optimise for performance
 
 ## Learnings from this project
 
 - I underestimated the complexity of sudoku...
+- Highschool math is actually usefull
 - [Fisher Yates (un?-)Sorting alorithm](https://www.w3schools.com/js/js_array_sort.asp)
+- Maybe it would be better to use a canvas... [sudoku.com](https://sudoku.com) uses it? I dont have experience with it yet so ill consider that for furture projects
 
 ## Logic
 
@@ -126,12 +130,7 @@ To run this project locally, you will need to have Node.js and npm installed.
     npm run dev
     ```
 
-## technologies used
+## tools used
 
-- vite - typescript, react
-
-## temorary stuff that i might use in the future that i would like to have links to if/when i do need them
-
-- [svgl](https://svgl.app/)
+- [react colorful](https://github.com/omgovich/react-colorful)
 - [svgrepo](https://www.svgrepo.com/)
-- [reactbits](https://www.reactbits.dev/)

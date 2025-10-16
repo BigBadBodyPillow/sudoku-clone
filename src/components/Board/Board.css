@@ -42,6 +42,14 @@
   .board-container {
     max-width: 300px !important;
   }
+  .controls {
+    margin: 0.5rem 0 !important;
+  }
+}
+@media (orientation: landscape) and (height <= 400px) {
+  .board-container {
+    max-width: 270px !important;
+  }
 }
 @media (width <= 1920px) {
   .board-container {
@@ -63,9 +71,9 @@
   grid-template-rows: repeat(3, 1fr);
 
   gap: var(--grid-gap);
-  border: var(--grid-gap) solid var(--border-colour);
+  border: var(--grid-gap) solid var(--square-colour_given);
   border-radius: var(--border-radius);
-  background: var(--border-colour);
+  background: var(--square-colour_given);
 
   /* font-size: 1.5em; */
   font-size: clamp(16px, 1.5em, 24px);
@@ -109,7 +117,7 @@
 
 .square.given {
   color: var(--text-colour_alt);
-  background: var(--border-colour);
+  background: var(--square-colour_given);
 }
 
 /* .square.editable {
@@ -164,12 +172,9 @@
   font: inherit;
   cursor: pointer;
 }
-/* .keypad-key:hover {
-  background: var(--square-colour_hover);
+.keypad-key:hover {
+  color: var(--text-colour);
 }
-.keypad-key:active {
-  background: var(--square-colour_active);
-} */
 
 .keypad-delete {
   width: 100%;

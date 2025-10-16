@@ -42,18 +42,12 @@ export function createEmptyNotesGrid(): NotesGrid {
   );
 }
 
-// randomize the numbers
+// shuffle
 // https://www.w3schools.com/js/tryit.asp?filename=tryjs_array_sort_random2
-// example:
-// input :[1, 2, 3, 4, 5, 6, 7, 8, 9]
-// output :[5, 6, 1, 4, 9, 2, 3, 7, 8]
 function shuffle<T>(array: T[]): T[] {
   const a = array.slice();
   for (let i = a.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
-    // const k = a[i];
-    // a[i] = a[j];
-    // a[j] = k;
 
     // swap places
     [a[i], a[j]] = [a[j], a[i]];
@@ -115,11 +109,6 @@ function isSafe({ grid, row, col, num }: IsSafeParams): boolean {
   const boardCol = col - (col % boardSize);
 
   // check if number exists in its board(the 3x3)
-  // variables names get really long so:
-  // r is the row relative to the board
-  // c is the column relative to the board
-  // boardRow + r gives you the overall row index in the grid
-  // boardCol + c gives you the overall column index in the grid
   for (let r = 0; r < boardSize; r += 1) {
     for (let c = 0; c < boardSize; c += 1) {
       if (grid[boardRow + r][boardCol + c] === num) return false;
@@ -253,8 +242,6 @@ export function makePuzzle({ completed, clues = 32 }: makePuzzleParams): {
       limit: 2,
     });
 
-    // console.log(solutions);
-
     // revert if more than 1 solution
     if (solutions !== 1) {
       puzzle[r][c] = backup;
@@ -265,11 +252,8 @@ export function makePuzzle({ completed, clues = 32 }: makePuzzleParams): {
     if (filled <= clues) break;
   }
 
-  // console.log(cloneGrid(completed));
   return { puzzle, solution: cloneGrid(completed) };
 }
-
-// console.log(asd);
 
 // validates user input
 export function isValidMove({
@@ -285,10 +269,10 @@ export function isValidMove({
 
   // clear cell so it doesnt flag its self when checking
   grid[row][col] = 0;
-  const ok = isSafe({ grid, row, col, num: value });
+  const safety = isSafe({ grid, row, col, num: value });
 
   // add it back
   grid[row][col] = current;
 
-  return ok;
+  return safety;
 }

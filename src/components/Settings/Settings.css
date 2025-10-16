@@ -24,8 +24,8 @@
   display: none;
   position: absolute;
   background-color: var(--square-colour_hover);
-  min-width: 100%;
-  width: max-content;
+  min-width: 250px;
+
   box-shadow: var(--boxshadow);
   z-index: 1;
   right: 0;
@@ -64,8 +64,6 @@
 }
 /* has a sibling thats open */
 .settings__dropdown .collapsible:has(+ .open) {
-  padding-inline: 0 2.16rem; /* magic number will fix later */
-  text-align: end;
   background-image: repeating-linear-gradient(
     135deg,
     var(--square-colour),

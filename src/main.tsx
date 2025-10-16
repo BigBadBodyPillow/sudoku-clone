@@ -19,7 +19,7 @@ if (savedFont) {
   // :root in css
   const root = document.documentElement;
   const backupFonts = ', system-ui, Avenir, Helvetica, Arial, sans-serif';
-  root.style.setProperty('--app-font', `${savedFont}${backupFonts}`);
+  root.style.setProperty('--font-family', `${savedFont}${backupFonts}`);
 }
 
 createRoot(document.getElementById('root')!).render(

@@ -23,9 +23,9 @@
   width: var(--colour-size);
   aspect-ratio: 1/1;
   border-radius: 10000px;
-  background-color: slateblue;
+  /* background-color: white; */
   border: 1px solid var(--text-colour);
-  box-shadow: inset 0 0 0 1px var(--border-colour);
+  box-shadow: inset 0 0 0 1px var(--square-colour_hover);
   cursor: pointer;
 }
 
@@ -35,6 +35,11 @@
 .theme__colour:focus-visible {
   border: 1px solid var(--accent-colour);
   outline: 2px solid var(--accent-colour);
+}
+
+.theme__colour.selected {
+  border: 1px solid var(--accent-colour);
+  outline: 1px solid var(--accent-colour);
 }
 .selected-colour {
   display: flex;
@@ -52,13 +57,112 @@
   cursor: pointer;
   padding: 0;
   /* theres line an outline that i cant style */
-  width: 110%;
-  height: 110%;
-  margin: -1%;
+  width: 150%;
+  height: 150%;
+  margin: -10px;
 }
 
 /* i spent so much time trying to figure out why its not being tabbed to...
  it was, there just wasnt an outline.*/
 .colour-picker:has(input[type='color']:focus-visible) {
   outline: 2px solid var(--accent-colour);
+}
+
+/* .colour__picker {
+  display: flex;
+  justify-content: center;
+} */
+
+.colour__picker .react-colorful {
+  width: 100%;
+}
+
+.colour__picker .react-colorful__saturation {
+  border-radius: var(--border-radius);
+  border-bottom: none;
+  margin-bottom: 8px;
+}
+
+.colour__picker .react-colorful__hue {
+  height: 15px;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.colour__picker .react-colorful__alpha {
+  height: 15px;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+.react-colorful__pointer {
+  height: 20px !important;
+  width: 20px !important;
+  /* background-color: transparent !important; */
+  overflow: hidden !important;
+  border-color: var(--border-colour) !important;
+  border-radius: var(--border-radius) !important;
+  cursor: pointer;
+  /* to remore a slight white colour */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: transparent !important;
+}
+.react-colorful__pointer.react-colorful__hue-pointer,
+.react-colorful__pointer.react-colorful__alpha-pointer {
+  width: 10px !important;
+  height: 20px !important;
+}
+.react-colorful__pointer-fill {
+  border-radius: 0px !important;
+}
+.rgba__inputs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5em;
+  margin-top: 10px;
+}
+
+.rgba__input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rgba__input-group label {
+  font-size: 0.8em;
+  color: var(--text-colour);
+  text-align: center;
+}
+
+.rgba__input {
+  width: 100%;
+  padding: 4px 0px;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.rgba__input:focus {
+  outline: 2px solid var(--accent-colour);
+  border-color: var(--accent-colour);
+}
+
+/* remove the spinner */
+.rgba__input::-webkit-outer-spin-button,
+.rgba__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* remove the spinner */
+.rgba__input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.theme__controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.theme__controls .reset-theme-btn {
+  font-size: 0.9em;
+  width: 100%;
 }

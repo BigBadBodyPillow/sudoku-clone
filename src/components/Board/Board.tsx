@@ -22,6 +22,12 @@ interface cellPositionParams {
   row: number;
   col: number;
 }
+interface InputParams {
+  grid: Grid;
+  row: number;
+  col: number;
+  trimmed: string;
+}
 
 function Board() {
   const boards = 9; // game is made up of 3x3 boards
@@ -31,7 +37,7 @@ function Board() {
   const [solution, setSolution] = useState<Grid | null>(null);
   const [userGrid, setUserGrid] = useState<Grid | null>(null);
   const [notesGrid, setNotesGrid] = useState<NotesGrid>(createEmptyNotesGrid());
-  const [noteEditingStatus, setNoteEditingStatus] = useState<boolean>(false);
+  const [isNotesMode, setIsNotesMode] = useState<boolean>(false);
   const [activeCell, setActiveCell] = useState<cellPositionParams | null>(null);
   const [isTouchDevice, setIsTouchDevice] = useState<boolean>(false);
   const keypadRef = useRef<HTMLDivElement | null>(null);
@@ -39,7 +45,7 @@ function Board() {
   // create new game.
   // set what the user sees
   // set the answered board
-  const regenerate = () => {
+  const newGame = () => {
     const completed = generateCompletedGrid();
     // s is the complete game board.
     // p isthe version with suqres removed untill it reaches the clues perameter
@@ -52,7 +58,7 @@ function Board() {
   };
 
   useEffect(() => {
-    regenerate();
+    newGame();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,105 +90,127 @@ function Board() {
     };
   }, [activeCell]);
 
-  // caches flag to avoid rendering work until everything exists
-  // const isReady = useMemo(
-  //   () => !!puzzle && !!solution && !!userGrid,
-  //   [puzzle, solution, userGrid]
-  // );
   const isReady = !!puzzle && !!solution && !!userGrid;
 
-  // manage user input.
-  // only digits 1-9 are allowed
+  // for user input in a cell.
+  // for normal and notes
   const handleChange = ({ row, col, value }: HandleChangeParams) => {
     if (!puzzle || !userGrid) return;
-
-    // prevent changes to clue squares
-    if (puzzle[row][col] !== 0) return;
+    if (isClueCell(puzzle, row, col)) return; // no edit a given cell
 
     const trimmed = value.trim();
 
-    // toggle notes mode
-    if (noteEditingStatus) {
-      if (trimmed === '') return; // ignore empty
-
-      const note = Number(trimmed);
-
-      //if not number, 0 or > 9 ignore
-      if (!Number.isInteger(note) || note < 1 || note > 9) return;
-
-      setNotesGrid((prev) => {
-        const next: NotesGrid = prev.map((row) =>
-          row.map((col) => new Set<number>(col))
-        );
-
-        const cellNotes = next[row][col];
-
-        // if the number already exists, remove it
-        if (cellNotes.has(note)) cellNotes.delete(note);
-        // otherwise add it
-        else cellNotes.add(note);
-
-        return next;
-      });
+    // toggle note
+    if (isNotesMode) {
+      handleNotesInput(row, col, trimmed);
       return;
     }
 
-    const next = cloneGrid(userGrid); // copy the game board
+    // add note to grid
+    const updatedGrid = applyUserInput({ grid: userGrid, row, col, trimmed });
+    setUserGrid(updatedGrid);
 
-    // if empty set to 0
-    if (trimmed === '') {
-      next[row][col] = 0;
-    }
-    // otherwise set the user input
-    else {
-      const num = Number(trimmed);
-
-      if (Number.isInteger(num) && num >= 1 && num <= 9) {
-        next[row][col] = num; // set the note
-      }
-    }
-    setUserGrid(next);
-
-    // if the placed value is valid, remove that digit from notes in row/col/subgrid
-    const placed = next[row][col];
+    const placed = updatedGrid[row][col];
     const isPlacedValid =
-      placed !== 0 && isValidMove({ grid: next, row, col, value: placed });
+      placed !== 0 &&
+      isValidMove({ grid: updatedGrid, row, col, value: placed });
+
+    //cleanup
+    const updatedNotes = updateNotesAfterPlacement(
+      notesGrid,
+      row,
+      col,
+      placed,
+      isPlacedValid
+    );
+    setNotesGrid(updatedNotes);
+  };
+
+  // reutursn true if teh cell is a given cell. (not editable)
+  const isClueCell = (puzzle: Grid, row: number, col: number): boolean => {
+    return puzzle[row][col] !== 0;
+  };
+
+  // handles note input mode
+  // toggles the note in the cell.
+  const handleNotesInput = (row: number, col: number, trimmed: string) => {
+    if (trimmed === '') return;
+
+    const note = Number(trimmed);
+    if (!Number.isInteger(note) || note < 1 || note > 9) return;
 
     setNotesGrid((prev) => {
-      const nextNotes: NotesGrid = prev.map((row) =>
+      // copy the grid
+      const next: NotesGrid = prev.map((row) =>
         row.map((col) => new Set<number>(col))
       );
 
-      // always clear notes when a number is entered
-      nextNotes[row][col].clear();
+      const cellNotes = next[row][col];
 
-      if (isPlacedValid) {
-        const digit = placed;
-        // clear row
-        for (let c = 0; c < 9; c += 1) {
-          if (c !== col) nextNotes[row][c].delete(digit);
-        }
-        // clear column
-        for (let r = 0; r < 9; r += 1) {
-          if (r !== row) nextNotes[r][col].delete(digit);
-        }
-
-        const startRow = row - (row % 3);
-        const startCol = col - (col % 3);
-
-        // clear subgrid
-        for (let row = 0; row < 3; row += 1) {
-          for (let col = 0; col < 3; col += 1) {
-            const boardRow = startRow + row;
-            const boardColumn = startCol + col;
-            if (boardRow === row && boardColumn === col) continue;
-            nextNotes[boardRow][boardColumn].delete(digit);
-          }
-        }
-      }
-
-      return nextNotes;
+      // delete or add a note
+      cellNotes.has(note) ? cellNotes.delete(note) : cellNotes.add(note);
+      return next;
     });
+  };
+
+  // converts empty input to 0 otherwise sets the digit
+  const applyUserInput = ({ grid, row, col, trimmed }: InputParams): Grid => {
+    const next = cloneGrid(grid);
+    // const num = Number(trimmed);
+
+    if (trimmed === '') {
+      next[row][col] = 0;
+    } else {
+      const num = Number(trimmed);
+
+      if (Number.isInteger(num) && num >= 1 && num <= 9) {
+        next[row][col] = num;
+      }
+    }
+
+    return next;
+  };
+
+  // c;ear notes and remove digits in row/column/subgrid
+  const updateNotesAfterPlacement = (
+    prev: NotesGrid,
+    row: number,
+    col: number,
+    digit: number,
+    isValid: boolean
+  ): NotesGrid => {
+    const next: NotesGrid = prev.map((row) =>
+      row.map((col) => new Set<number>(col))
+    );
+
+    next[row][col].clear(); // alwauys clear edited cell
+
+    if (!isValid) return next;
+
+    // row
+    for (let c = 0; c < 9; c++) {
+      if (c !== col) next[row][c].delete(digit);
+    }
+
+    //colimn
+    for (let r = 0; r < 9; r++) {
+      if (r !== row) next[r][col].delete(digit);
+    }
+
+    // subgrid
+    const startRow = row - (row % 3);
+    const startCol = col - (col % 3);
+
+    for (let r = 0; r < 3; r++) {
+      for (let c = 0; c < 3; c++) {
+        const boardRow = startRow + r;
+        const boardCol = startCol + c;
+        if (boardRow === row && boardCol === col) continue;
+        next[boardRow][boardCol].delete(digit);
+      }
+    }
+
+    return next;
   };
 
   //checks if cell is a clue or invalid (main purpose is styling)
@@ -225,45 +253,6 @@ function Board() {
             >
               {/* each square in the board | 9 total cells = 1 3x3 board */}
               {Array.from({ length: square }, (_, squareIndex) => {
-                //      game grid
-                //  =================
-                // | [a] | [b] | [c] | *0
-                // | --- | --- | --- |
-                // | [d] | [e] | [f] | *1
-                // | --- | --- | --- |
-                // | [g] | [h] | [i] | *2
-                //  =================
-                //   *0    *1    *2
-                //
-                //    board [i]
-                //     =======
-                //    | $ x x | *0
-                //    | x x # | *1
-                //    | x x x | *2
-                //     =======
-                //     *0*1*2
-                // board coordinates:
-                // all squares in i have a board index of 8
-                // row: (8)/3 = floor(2) = 2
-                // col: (8)%3 = 2
-                // = [2,2] in the overall game
-                // square coordinates:
-                // all cells in a board have an index in a range of 0-8
-                // $ would be 0 and # would be 5
-                // $:[0,0]
-                //  row: (0)/3 = floor(0) = 0
-                //  col: (0)%3 = 0
-                //
-                // #:[1,2]
-                //  row: (5)/3 = floor(1.66) = 1
-                //  col: (5)%3 = 2
-                //
-                // board:[2,2]
-                // $:[0,0] | #:[1,2] in board
-                //
-                // overall game
-                // $:[6,6] = [2*3+0, 2*3+0]
-                // #:[7,8] = [2*3+1, 2*3+2]
                 // game co ordinates 3x3 of boards
                 const boardRow = Math.floor(boardIndex / 3);
                 const boardCol = boardIndex % 3;
@@ -273,6 +262,7 @@ function Board() {
                 // grid coordinates 9x9 of squares
                 const row = boardRow * 3 + cellRow;
                 const col = boardCol * 3 + cellCol;
+
                 const { given, invalid } = cellStatus({ row, col });
                 const value = isReady && userGrid ? userGrid[row][col] : 0;
                 return (
@@ -301,14 +291,14 @@ function Board() {
                           <div className="notes-grid" aria-hidden="true">
                             {/* notes placeholders */}
                             {Array.from({ length: 9 }, (_, i) => {
-                              const n = i + 1;
-                              const has = notesGrid[row][col].has(n);
+                              const note = i + 1;
+                              const hasNote = notesGrid[row][col].has(note);
                               return (
                                 <span
-                                  key={n}
-                                  className={`note${has ? ' present' : ''}`}
+                                  key={note}
+                                  className={`note${hasNote ? ' present' : ''}`}
                                 >
-                                  {has ? n : ''}
+                                  {hasNote ? note : ''}
                                 </span>
                               );
                             })}
@@ -316,7 +306,6 @@ function Board() {
                         ) : null}
                         <input
                           className="square-input"
-                          // name={`input ${squareIndex + 1}`}
                           inputMode="numeric"
                           pattern="[1-9]"
                           maxLength={1}
@@ -342,7 +331,6 @@ function Board() {
                             onMouseDown={(e) => e.stopPropagation()}
                           >
                             {Array.from({ length: 9 }, (_, i) => {
-                              // const n = i;
                               const numpadKey = i + 1;
                               return (
                                 <button
@@ -362,7 +350,7 @@ function Board() {
                                 </button>
                               );
                             })}
-                            {!noteEditingStatus ? (
+                            {!isNotesMode ? (
                               <button
                                 type="button"
                                 className="keypad-key keypad-delete"
@@ -388,17 +376,15 @@ function Board() {
         <div className="controls">
           <button
             className="new-game-button"
-            onClick={regenerate}
+            onClick={newGame}
             title="start a new game with a new board"
           >
             new game
           </button>
           <button
-            aria-pressed={noteEditingStatus}
+            aria-pressed={isNotesMode}
             className="notes-button"
-            onClick={() =>
-              setNoteEditingStatus((currentValue) => !currentValue)
-            }
+            onClick={() => setIsNotesMode((currentValue) => !currentValue)}
             title="Toggle notes mode (type digits to add/remove notes)"
           >
             notes

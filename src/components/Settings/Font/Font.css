@@ -2,7 +2,21 @@ input[name='font_input'] {
   width: 10em; /* a reasonable size i thinkh*/
 }
 input[name='font-size_input'] {
-  width: 5em; /* should be more than wide enough*/
+  width: 3em; /* should be more than wide enough*/
+  padding: 4px 0px;
+  font-size: 0.9em;
+  text-align: center;
+
+  /* spinner */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* remove the spinner */
+input[name='font-size_input']::-webkit-outer-spin-button,
+input[name='font-size_input']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /* <br/> was too much */
