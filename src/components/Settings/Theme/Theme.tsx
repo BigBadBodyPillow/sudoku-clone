@@ -52,6 +52,26 @@ export default function Theme() {
       .trim();
   };
 
+  // attempt to resolve an issue only in production and not in dev
+  // try to resolve by applying the colour to a temporary element
+  const resolveCssVariable = (variable: string): string => {
+    const raw = getCurrentColourValue(variable);
+    if (raw) return raw;
+
+    if (typeof document === 'undefined' || !document.body) return '';
+
+    const temp = document.createElement('div');
+    temp.style.display = 'none';
+
+    // set color so that the computed style will resolve the colour
+    temp.style.color = `var(${variable})`;
+    document.body.appendChild(temp);
+    const resolved = getComputedStyle(temp).color;
+    document.body.removeChild(temp);
+
+    return resolved.trim();
+  };
+
   //convert css colour to json in the way the component requires.
   const parseColourToRgba = (
     colourValue: string
@@ -101,15 +121,18 @@ export default function Theme() {
   // load theme from storage when appl;ication loads
   useEffect(() => {
     loadThemeFromStorage();
-    saveThemeToStorage();
+    // saveThemeToStorage();
   }, []);
 
   // update colour picker when selected colour changes
   useEffect(() => {
     const selectedColourMapping = colourMapping[selectedColour];
-    const currentcolourValue = getCurrentColourValue(
+    const currentcolourValue = resolveCssVariable(
       selectedColourMapping.variable
     );
+    // const currentcolourValue = getCurrentColourValue(
+    //   selectedColourMapping.variable
+    // );
     const rgbaColour = parseColourToRgba(currentcolourValue);
     setColour(rgbaColour);
   }, [selectedColour]);
@@ -174,11 +197,11 @@ export default function Theme() {
   }) => {
     setColour(newColour); // update state
     const selectedColourMapping = colourMapping[selectedColour];
-    const handleColourSelect = rgbaToString(newColour);
+    const colourString = rgbaToString(newColour);
     // change css
     document.documentElement.style.setProperty(
       selectedColourMapping.variable,
-      handleColourSelect
+      colourString
     );
 
     // Save to localStorage
@@ -209,7 +232,8 @@ export default function Theme() {
                 selectedColour === index ? 'selected' : ''
               }`}
               style={{
-                backgroundColor: getCurrentColourValue(colour.variable),
+                backgroundColor: resolveCssVariable(colour.variable),
+                // backgroundColor: getCurrentColourValue(colour.variable),
               }}
               title={`${colour.name} colour`}
               tabIndex={0}

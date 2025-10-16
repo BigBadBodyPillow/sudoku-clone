@@ -13,6 +13,7 @@
 
 - Notes
 - keypad
+- dark / light mode
 - customisation
   - font
   - theme colours
@@ -26,6 +27,7 @@
 - [x] font changer
 - [x] theme changer
 - [x] font size changer
+- [ ] add icons
 - [ ] do something when win
 - [ ] optimise for performance
 
