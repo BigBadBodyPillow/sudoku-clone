@@ -5,6 +5,9 @@ import { RgbaColorPicker } from 'react-colorful';
 //css
 import './Theme.css';
 
+//icon
+import ThemeIcon from '../../../assets/theme.svg?react';
+
 const colourMapping = [
   { name: 'accent', variable: '--accent-colour' },
   { name: 'board background', variable: '--game-background-colour' },
@@ -235,7 +238,8 @@ export default function Theme() {
 
   return (
     <>
-      <button type="button" className="collapsible" onClick={toggleOpen}>
+      <button type="button" className="theme collapsible" onClick={toggleOpen}>
+        <ThemeIcon />
         Theme
       </button>
       <div className={`content ${isOpen ? `open` : ``}`}>

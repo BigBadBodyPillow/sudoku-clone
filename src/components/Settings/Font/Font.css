@@ -1,6 +1,7 @@
 input[name='font_input'] {
   width: 10em; /* a reasonable size i thinkh*/
 }
+
 input[name='font-size_input'] {
   width: 3em; /* should be more than wide enough*/
   padding: 4px 0px;

@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 //css
 import './Font.css';
 
+//icon
+import FontIcon from '../../../assets/font.svg?react';
+
 // interface FontParams {
 //   onclickFunction: () => void;
 //   openStatus: boolean;
@@ -89,7 +92,8 @@ export default function Font() {
 
   return (
     <>
-      <button type="button" className="collapsible" onClick={toggleOpen}>
+      <button type="button" className="font collapsible" onClick={toggleOpen}>
+        <FontIcon />
         font
       </button>
       <div className={`content ${IsOpen ? `open` : ``}`}>

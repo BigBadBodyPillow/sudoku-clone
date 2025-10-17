@@ -27,7 +27,7 @@
 - [x] font changer
 - [x] theme changer
 - [x] font size changer
-- [ ] add icons
+- [x] add icons
 - [ ] do something when win
 - [ ] optimise for performance
 

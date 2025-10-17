@@ -5,6 +5,18 @@
   top: 20px;
   right: 20px;
 }
+
+.settings__button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+/* .settings__button--icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: currentColor;
+} */
+
 /* when its sibling has the open class*/
 .settings__button:has(+ .open) {
   opacity: 1;
@@ -36,8 +48,15 @@
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  stroke: var(--text-colour);
+  fill: var(--text-colour);
   color: var(--text-colour);
   width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 
   background-color: transparent;
   border: none;

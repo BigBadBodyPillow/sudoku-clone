@@ -238,9 +238,49 @@ button {
   display: flex;
   justify-content: space-between;
   margin: 1rem 0;
+  gap: 8px;
+}
+.controls button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
 }
 .controls .notes-button[aria-pressed='true'] {
   background: var(--accent-colour);
   color: white;
   opacity: 1; /* to stop the hover */
+}
+.newgame--icon {
+  transition: transform 0.3s ease-in-out;
+  transform: rotate(0deg);
+}
+.new-game-button:hover .newgame--icon {
+  transform: rotate(-90deg);
+}
+.new-game-button:active .newgame--icon {
+  transform: rotate(-180deg);
+}
+
+.notes--icon {
+  transition: transform 0.2s ease;
+  fill: currentColor;
+  scale: 0.8;
+  transform: rotate(-25deg);
+}
+
+.notes-button:hover .notes--icon {
+  animation: scribble 0.3s ease-in-out;
+}
+@keyframes scribble {
+  25% {
+    transform: rotate(-30deg) translate(-1px, 1px);
+  }
+  50% {
+    transform: rotate(-20deg) translate(1px, -1px);
+  }
+  75% {
+    transform: rotate(-28deg) translate(-1px, 0);
+  }
 }

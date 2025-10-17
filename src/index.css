@@ -92,8 +92,8 @@ button {
 }
 button:hover,
 button:focus-visible {
-  opacity: 0.8;
-  color: var(--accent-colour);
+  /* opacity: 0.8; */
+  color: var(--text-colour_alt);
 }
 button:active {
   opacity: 1;
@@ -132,3 +132,9 @@ select:focus,
 textarea {
   font-size: clamp(16px, what want, max); 
 } */
+
+svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: currentColor;
+}

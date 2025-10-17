@@ -13,6 +13,10 @@ import {
 //css
 import './Board.css';
 
+//icon
+import NewGameIcon from '../../assets/newgame.svg?react';
+import NotesIcon from '../../assets/notes.svg?react';
+
 interface HandleChangeParams {
   row: number;
   col: number;
@@ -379,6 +383,7 @@ function Board() {
             onClick={newGame}
             title="start a new game with a new board"
           >
+            <NewGameIcon className="newgame--icon" />
             new game
           </button>
           <button
@@ -387,6 +392,7 @@ function Board() {
             onClick={() => setIsNotesMode((currentValue) => !currentValue)}
             title="Toggle notes mode (type digits to add/remove notes)"
           >
+            <NotesIcon className="notes--icon" />
             notes
           </button>
         </div>
