@@ -275,12 +275,12 @@ button {
 
 @keyframes scribble {
   25% {
-    transform: rotate(-30deg) translate(-1px, 1px);
+    transform: rotate(-30deg) translate(-1px, 1px) scale(0.8);
   }
   50% {
-    transform: rotate(-20deg) translate(1px, -1px);
+    transform: rotate(-20deg) translate(1px, -1px) scale(0.8);
   }
   75% {
-    transform: rotate(-28deg) translate(-1px, 0);
+    transform: rotate(-28deg) translate(-1px, 0) scale(0.8);
   }
 }
