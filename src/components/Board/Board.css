@@ -266,8 +266,7 @@ button {
 .notes--icon {
   transition: transform 0.2s ease;
   fill: currentColor;
-  scale: 0.8;
-  transform: rotate(-25deg);
+  transform: rotate(-25deg) scale(0.8);
 }
 
 .notes-button:hover .notes--icon {
