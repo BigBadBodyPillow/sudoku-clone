@@ -35,7 +35,8 @@
   --font-family: 'Space Grotesk', system-ui, Avenir, Helvetica, Arial,
     sans-serif;
   --font-size: 16px;
-  --border-radius: 0.3rem;
+  --border-radius: 8px;
+  /* --border-radius: 0.3rem; */
   --game-background-colour: rgba(64, 0, 255, 0.249);
   --invalid-colour: rgb(255, 77, 79);
   --accent-colour: rgb(255, 112, 203);
@@ -81,7 +82,7 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;

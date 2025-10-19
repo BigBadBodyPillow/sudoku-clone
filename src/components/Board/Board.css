@@ -273,6 +273,7 @@ button {
 .notes-button:hover .notes--icon {
   animation: scribble 0.3s ease-in-out;
 }
+
 @keyframes scribble {
   25% {
     transform: rotate(-30deg) translate(-1px, 1px);

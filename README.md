@@ -21,15 +21,15 @@
 ## Todo
 
 - [x] make it work
-- [x] add the notes thing
-- [x] remove notes from row/column/subgrid when an actual number is inputed
-- [x] add 'number pad' that appears when cell is clicked(not focused? & not on mobile)
+- [x] notes
+- [x] number pad
 - [x] font changer
 - [x] theme changer
 - [x] font size changer
 - [x] add icons
+- [ ] write tests
 - [ ] do something when win
-- [ ] optimise for performance
+- [ ] refactor
 
 ## Learnings from this project
 
