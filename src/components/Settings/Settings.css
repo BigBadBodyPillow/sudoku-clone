@@ -96,6 +96,10 @@
   /* important is needed because of specificity i think*/
   display: block !important;
 }
+/* when theme is open */
+.content.open:nth-child(4) {
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
 .settings__dropdown .content {
   padding: 12px 18px;
   display: none;
