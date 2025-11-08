@@ -27,7 +27,7 @@
 - [x] theme changer
 - [x] font size changer
 - [x] add icons
-- [ ] write tests
+- [x] write tests
 - [ ] do something when win
 - [ ] refactor
 
