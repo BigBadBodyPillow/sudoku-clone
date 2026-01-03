@@ -15,7 +15,7 @@
 
 ## Description 
 
-A fully interactive Sudoku web application built with React and TypeScript, featuring advanced gameplay enhancements. Players can add notes for strategic solving, switch between custom fonts, and toggle light/dark themes for a personalized experience. The project demonstrates strong skills in state management, component design, and UI/UX customization, while maintaining clean, scalable code and robust TypeScript typing for reliability.
+A fully interactive Sudoku web application built with React and TypeScript, featuring advanced gameplay enhancements. Players can add notes for strategic solving, switch between custom fonts, and toggle light/dark themes for a personalised  experience. The project demonstrates strong skills in state management, component design, and UI/UX customisation, while maintaining clean, scalable code and robust TypeScript typing for reliability.
 
 ## Features
 
