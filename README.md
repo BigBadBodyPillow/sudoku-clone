@@ -10,7 +10,8 @@
 <p align="center">
   <img src="public/Sudoku.png" alt="preview">
 </p>
-[Demo](https://bigbadbodypillow.github.io/sudoku-clone/)
+
+ [Demo](https://bigbadbodypillow.github.io/sudoku-clone/)
 
 
 ## Description 
